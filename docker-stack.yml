@@ -24,7 +24,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=5000
-      - MONGODB_URI=mongodb+srv://aadar:aadarsha@cluster0.cbt3qea.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - MONGODB_URI="<your_mongodb_connection_uri>"
     deploy:
       replicas: 2
       restart_policy:
