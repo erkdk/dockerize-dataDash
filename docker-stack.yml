@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  client:
+    image: 192.168.56.10/data-dash/client:v1.0.2
+    ports:
+      - "3000:3000"
+    environment:
+      - HOST=0.0.0.0
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == worker
+    networks:
+      - data-dash-net
+
+  server:
+    image: 192.168.56.10/data-dash/server:v1.0.3
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - MONGODB_URI=mongodb+srv://aadar:aadarsha@cluster0.cbt3qea.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == worker
+    networks:
+      - data-dash-net
+
+networks:
+  data-dash-net:
+    driver: overlay
+    attachable: true
+
